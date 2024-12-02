@@ -24,8 +24,11 @@ func main() {
 			arr = append(arr, num)
 		}
 		if Part1(arr) {
-			fmt.Println(arr)
 			count++
+		} else {
+			if Part2(arr) {
+				count++
+			}
 		}
 	}
 	fmt.Println(count)
@@ -47,4 +50,19 @@ func Part1(arr []int) bool {
 		}
 	}
 	return true
+}
+
+func Part2(arr []int) bool {
+	for index := range arr {
+		newarr := []int{}
+		for i, v := range arr {
+			if i != index {
+				newarr = append(newarr, v)
+			}
+		}
+		if Part1(newarr) {
+			return true
+		}
+	}
+	return false
 }
