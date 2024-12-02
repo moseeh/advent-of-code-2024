@@ -27,6 +27,8 @@ func main() {
 	sort.Ints(arrleft)
 	sort.Ints(arrright)
 	fmt.Println(Part1(arrleft, arrright))
+	fmt.Println(Part2(arrleft, arrright))
+
 }
 
 func Part1(arr1, arr2 []int) int {
@@ -36,6 +38,20 @@ func Part1(arr1, arr2 []int) int {
 		sum += abs(add)
 	}
 	return sum
+}
+
+func Part2(arr1, arr2 []int) int {
+	similarityscore := 0
+	for _, v := range arr1 {
+		count := 0
+		for _, v1 := range arr2 {
+			if v == v1 {
+				count++ 
+			}
+		}
+		similarityscore += v * count
+	}
+	return similarityscore
 }
 
 func abs(num int) int {
