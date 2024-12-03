@@ -16,6 +16,7 @@ func main() {
 	filestr := string(filebytes)
 	filearr := strings.Split(filestr, "mul")
 	fmt.Println(Part1(filearr))
+	fmt.Println(Part2(filestr))
 }
 
 func Part1(arr []string) int {
@@ -44,6 +45,52 @@ func Part1(arr []string) int {
 			continue
 		}
 		sum += num1 * num2
+	}
+	return sum
+}
+
+func Part2(str string) int {
+	sum := 0
+	do := true
+	start := 0
+	for start < len(str) {
+		if strings.HasPrefix(str[start:], "don't()") {
+			do = false
+			start += len("don't()")
+			continue
+		}
+		if strings.HasPrefix(str[start:], "do()") {
+			do = true
+			start += len("do()")
+			continue
+		}
+		if do {
+			if strings.HasPrefix(str[start:], "mul(") {
+				s := str[start+len("mul("):]
+				s = s[:strings.Index(s, ")")]
+				sarr := strings.Split(s, ",")
+				if len(sarr) != 2 {
+					start++
+					continue
+				}
+				num1, err := strconv.Atoi(sarr[0])
+				if err != nil {
+					start++
+					continue
+				}
+				num2, err := strconv.Atoi(sarr[1])
+				if err != nil {
+					start++
+					continue
+				}
+				if num1 > 999 || num2 > 999 {
+					start++
+					continue
+				}
+				sum += num1 * num2
+			}
+		}
+		start++
 	}
 	return sum
 }
