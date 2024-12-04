@@ -82,6 +82,7 @@ func Part2(arr []string) int {
 					if j <= len(str)-3 && arr[i+1][j+1] == 'A' && arr[i][j+2] == 'S' && arr[i+2][j+2] == 'S' {
 						count++
 					}
+					//backward
 					if j >= 2 && arr[i+1][j-1] == 'A' && arr[i][j-2] == 'S' && arr[i+2][j-2] == 'S' {
 						count++
 					}
