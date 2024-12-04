@@ -15,6 +15,7 @@ func main() {
 	filestr := string(filebytes)
 	filearr := strings.Split(filestr, "\n")
 	fmt.Println(Part1(filearr))
+	fmt.Println(Part2(filearr))
 }
 
 func Part1(arr []string) int {
@@ -53,6 +54,38 @@ func Part1(arr []string) int {
 					count++
 				}
 
+			}
+		}
+	}
+	return count
+}
+
+func Part2(arr []string) int {
+	count := 0
+	for i, str := range arr {
+		for j, c := range str {
+			if c == 'M' {
+				// handle when M.M are horizontal
+				if j <= len(str)-3 && str[j+2] == 'M' {
+					// forward
+					if i <= len(arr)-3 && arr[i+1][j+1] == 'A' && arr[i+2][j] == 'S' && arr[i+2][j+2] == 'S' {
+						count++
+					}
+					// backward
+					if i >= 2 && arr[i-1][j+1] == 'A' && arr[i-2][j] == 'S' && arr[i-2][j+2] == 'S' {
+						count++
+					}
+				}
+				// handle when M.M are vertical
+				if i <= len(arr)-3 && arr[i+2][j] == 'M' {
+					// forward
+					if j <= len(str)-3 && arr[i+1][j+1] == 'A' && arr[i][j+2] == 'S' && arr[i+2][j+2] == 'S' {
+						count++
+					}
+					if j >= 2 && arr[i+1][j-1] == 'A' && arr[i][j-2] == 'S' && arr[i+2][j-2] == 'S' {
+						count++
+					}
+				}
 			}
 		}
 	}
