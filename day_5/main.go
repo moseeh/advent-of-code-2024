@@ -30,12 +30,37 @@ func main() {
 			updates = append(updates, update)
 		}
 	}
-	fmt.Println(Part1(ordering, updates))
+	sum, newupdates := Part1(ordering, updates)
+	fmt.Println(sum)
+	sum = 0
+	for _, newupdate := range newupdates {
+		arr := Part2(ordering, newupdate)
+		sum += arr[len(arr)/2]
+	}
+	fmt.Println(sum)
 }
 
-func Part1(ordering map[int][]int, updates [][]int) int {
-	sum := 0
+func Part2(ordering map[int][]int, update []int) []int {
+	changed := true
+	current := make([]int, len(update))
+	copy(current, update)
 
+	for changed {
+		changed = false
+		for i := 0; i < len(current)-1; i++ {
+			if !Part1Helper(current[i:], ordering[current[i]]) {
+				current[i], current[i+1] = current[i+1], current[i]
+				changed = true
+			}
+		}
+	}
+
+	return current
+}
+
+func Part1(ordering map[int][]int, updates [][]int) (int, [][]int) {
+	sum := 0
+	newupdates := [][]int{}
 	var isvalid bool
 	for _, update := range updates {
 		for i, page := range update {
@@ -43,6 +68,7 @@ func Part1(ordering map[int][]int, updates [][]int) int {
 
 				arr := ordering[page]
 				if !Part1Helper(update[i:], arr) {
+					newupdates = append(newupdates, update)
 					isvalid = false
 					break
 				}
@@ -50,11 +76,10 @@ func Part1(ordering map[int][]int, updates [][]int) int {
 			}
 		}
 		if isvalid {
-			fmt.Println(update)
 			sum += update[len(update)/2]
 		}
 	}
-	return sum
+	return sum, newupdates
 }
 
 func Part1Helper(update, arr []int) bool {
