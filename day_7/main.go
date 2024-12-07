@@ -36,7 +36,41 @@ func Part1(line string) int {
 	if Part1helper(value, numarr) {
 		return value
 	}
+	if Part2(value, numarr) {
+		return value
+	}
 	return 0
+}
+
+func Part2(num int, numarr []int) bool {
+	tries := math.Pow(3.0, float64(len(numarr)-1))
+	for i := 0; i <= int(tries)-1; i++ {
+		str := strconv.FormatInt(int64(i), 3)
+
+		if len(str) != len(numarr)-1 {
+			str = strings.Repeat("0", len(numarr)-1-len(str)) + str
+		}
+		sum := 0
+		for i, v := range str {
+			if sum == 0 {
+				sum = numarr[i]
+			}
+			if v == '0' {
+				sum *= numarr[i+1]
+			}
+			if v == '1' {
+				sum += numarr[i+1]
+			}
+			if v == '2' {
+				sumstr := strconv.Itoa(sum) + strconv.Itoa(numarr[i+1])
+				sum, _ = strconv.Atoi(sumstr)
+			}
+		}
+		if sum == num {
+			return true
+		}
+	}
+	return false
 }
 
 func Part1helper(num int, numarr []int) bool {
