@@ -25,7 +25,6 @@ func main() {
 
 func Part1(line string) int {
 	linearr := strings.Split(line, ":")
-
 	value, _ := strconv.Atoi(linearr[0])
 	arr := strings.Fields(linearr[1])
 	numarr := []int{}
@@ -46,7 +45,6 @@ func Part2(num int, numarr []int) bool {
 	tries := math.Pow(3.0, float64(len(numarr)-1))
 	for i := 0; i <= int(tries)-1; i++ {
 		str := strconv.FormatInt(int64(i), 3)
-
 		if len(str) != len(numarr)-1 {
 			str = strings.Repeat("0", len(numarr)-1-len(str)) + str
 		}
@@ -77,7 +75,6 @@ func Part1helper(num int, numarr []int) bool {
 	tries := math.Pow(2.0, float64(len(numarr)-1))
 	for i := 0; i <= int(tries)-1; i++ {
 		str := strconv.FormatInt(int64(i), 2)
-
 		if len(str) != len(numarr)-1 {
 			str = strings.Repeat("0", len(numarr)-1-len(str)) + str
 		}
