@@ -31,8 +31,6 @@ func Part1(filestr string) int {
 			arr = append(arr, strings.Repeat(".", n))
 		}
 	}
-	fmt.Println(arr)
-	fmt.Println(mymap)
 	newarr := part1helper(arr, mymap)
 	sum := 0
 	for i, v := range newarr {
