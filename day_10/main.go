@@ -48,7 +48,7 @@ func Part1helper(i, j int, arr []string, c rune, visited map[[2]int]bool) {
 
 	for _, d := range directions {
 		newI, newJ := i+d.dx, j+d.dy
-		if newI >= 0 && newI < len(arr) && newJ >= 0 && newJ < len(arr[0]) && !visited[[2]int{newI, newJ}] && rune(arr[newI][newJ]) == c+1 {
+		if newI >= 0 && newI < len(arr) && newJ >= 0 && newJ < len(arr[0]) && rune(arr[newI][newJ]) == c+1 {
 			Part1helper(newI, newJ, arr, c+1, visited)
 		}
 	}
