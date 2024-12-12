@@ -22,12 +22,14 @@ func main() {
 	filestr := string(filebytes)
 	filearr := strings.Split(filestr, "\n")
 	Part1(filearr)
-	sum := 0
+	sum, sum1 := 0, 0
 	for k, v := range Regions {
 		fmt.Printf("The area and perimeter of %s, is %d and %d respectively\n", k, len(v), Perimeter[k])
-		sum += len(v)*Perimeter[k]
+		sum += len(v) * Perimeter[k]
+		sum1 += len(v) * Part2(v, filearr)
 	}
 	fmt.Println(sum)
+	fmt.Println(sum1)
 }
 
 func Part1(arr []string) {
@@ -48,9 +50,9 @@ func Part1helper(arr []string, i, j int, c rune) {
 	// hasadjacent := false
 	directions := []struct{ dx, dy int }{
 		{1, 0},
+		{0, 1},
 		{-1, 0},
 		{0, -1},
-		{0, 1},
 	}
 
 	for _, d := range directions {
