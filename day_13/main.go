@@ -50,15 +50,24 @@ func main() {
 		}
 		machines = append(machines, machine)
 	}
-	tokens := 0
+	tokens, tokens2 := 0, 0
 	for _, machine := range machines {
 		tokens += part1(machine)
 	}
+	for _, machine := range machines {
+		tokens2 += part2(machine)
+	}
 	fmt.Println(tokens)
+	fmt.Println(tokens2)
 }
 
 func part1(machine Machine) int {
 	A, B := SolveEquations(machine.ButtonA[0], machine.ButtonB[0], machine.Prize[0], machine.ButtonA[1], machine.ButtonB[1], machine.Prize[1])
+	return A*3 + B*1
+}
+
+func part2(machine Machine) int {
+	A, B := SolveEquations(machine.ButtonA[0], machine.ButtonB[0], machine.Prize[0]+10000000000000, machine.ButtonA[1], machine.ButtonB[1], machine.Prize[1]+10000000000000)
 	return A*3 + B*1
 }
 
