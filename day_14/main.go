@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -13,9 +14,9 @@ const (
 )
 
 var (
-	Coordinates    = make(map[string][2]int)
-	Velocities     = make(map[string][2]int)
-	FinalPositions = make(map[[2]int]int)
+	Coordinates = make(map[string][2]int)
+	Velocities  = make(map[string][2]int)
+	count       = 1
 )
 
 func main() {
@@ -33,45 +34,44 @@ func main() {
 		Velocities[fmt.Sprintf("Robot num%d", i+1)] = processRobotinfo(parts[1])
 	}
 	Motions()
-	fmt.Println(Part1())
+	// fmt.Println(Part1())
 }
 
-func Part1() int {
-	for _, v := range Coordinates {
-		FinalPositions[v]++
-	}
-	xlow, ylow := Width/2-1, Height/2-1
-	quad1, quad2, quad3, quad4 := 0, 0, 0, 0
+// func Part1() int {
+// 	for _, v := range Coordinates {
+// 		FinalPositions[v]++
+// 	}
+// 	xlow, ylow := Width/2-1, Height/2-1
+// 	quad1, quad2, quad3, quad4 := 0, 0, 0, 0
 
-	for j := 0; j <= xlow; j++ {
-		for i := 0; i <= ylow; i++ {
-			quad1 += FinalPositions[[2]int{j, i}]
-		}
-	}
-	for j := xlow + 2; j < Width; j++ {
-		for i := 0; i <= ylow; i++ {
-			quad2 += FinalPositions[[2]int{j, i}]
-		}
-	}
-	for j := 0; j <= xlow; j++ {
-		for i := ylow + 2; i < Height; i++ {
-			quad3 += FinalPositions[[2]int{j, i}]
-		}
-	}
-	for j := xlow + 2; j < Width; j++ {
-		for i := ylow + 2; i < Height; i++ {
-			quad4 += FinalPositions[[2]int{j, i}]
-		}
-	}
-	fmt.Println(quad1, quad2, quad3, quad4)
+// 	for j := 0; j <= xlow; j++ {
+// 		for i := 0; i <= ylow; i++ {
+// 			quad1 += FinalPositions[[2]int{j, i}]
+// 		}
+// 	}
+// 	for j := xlow + 2; j < Width; j++ {
+// 		for i := 0; i <= ylow; i++ {
+// 			quad2 += FinalPositions[[2]int{j, i}]
+// 		}
+// 	}
+// 	for j := 0; j <= xlow; j++ {
+// 		for i := ylow + 2; i < Height; i++ {
+// 			quad3 += FinalPositions[[2]int{j, i}]
+// 		}
+// 	}
+// 	for j := xlow + 2; j < Width; j++ {
+// 		for i := ylow + 2; i < Height; i++ {
+// 			quad4 += FinalPositions[[2]int{j, i}]
+// 		}
+// 	}
+// 	fmt.Println(quad1, quad2, quad3, quad4)
 
-	return quad1 * quad2 * quad3 * quad4
-}
+// 	return quad1 * quad2 * quad3 * quad4
+// }
 
 func Motions() {
-	count := 0
-
-	for count < 100 {
+	for {
+		FinalPositions := make(map[[2]int]int)
 		for robot, coords := range Coordinates {
 			x, y := coords[0]+Velocities[robot][0], coords[1]+Velocities[robot][1]
 			if x < 0 {
@@ -87,8 +87,11 @@ func Motions() {
 				y = y - Height
 			}
 			Coordinates[robot] = [2]int{x, y}
+			FinalPositions[[2]int{x, y}]++
 		}
+		part2(FinalPositions)
 		count++
+		time.Sleep(500 * time.Millisecond)
 	}
 }
 
