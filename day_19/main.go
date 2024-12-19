@@ -20,6 +20,8 @@ func main() {
 	towelDesigns := strings.Split(filearr[1], "\n")
 	fmt.Println(len(towelPatterns), len(towelDesigns[10]))
 	fmt.Println(Part1(towelPatterns, towelDesigns))
+	fmt.Println(Part2(towelPatterns, towelDesigns))
+
 }
 
 func Part1(patterns, designs []string) int {
@@ -42,6 +44,30 @@ func canBeDecomposedDP(str string, patterns []string) bool {
 			if i+len(pattern) <= n && str[i:i+len(pattern)] == pattern && dp[i+len(pattern)] {
 				dp[i] = true
 				break
+			}
+		}
+	}
+
+	return dp[0]
+}
+
+func Part2(patterns, designs []string) int {
+	total := 0
+	for _, str := range designs {
+		total += countWaysDP(str, patterns)
+	}
+	return total
+}
+
+func countWaysDP(str string, patterns []string) int {
+	n := len(str)
+	dp := make([]int, n+1)
+	dp[n] = 1
+
+	for i := n - 1; i >= 0; i-- {
+		for _, pattern := range patterns {
+			if i+len(pattern) <= n && str[i:i+len(pattern)] == pattern {
+				dp[i] += dp[i+len(pattern)]
 			}
 		}
 	}
